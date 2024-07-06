@@ -41,7 +41,7 @@ const Flow = (props) => {
   const initialNodes = initializeNodes(currentDatabase);
 
   const store = useStoreApi();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [fullscreenOn, setFullScreen] = useState(false);
@@ -318,7 +318,7 @@ const Flow = (props) => {
   );
 };
 
-const Canvas = (props) => {
+const Canvas = () => {
   const [currentDatabase, setCurrentDatabase] = useState({
     tables: [],
     edgeConfigs: [],
