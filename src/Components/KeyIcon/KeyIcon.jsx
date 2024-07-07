@@ -16,7 +16,7 @@ export function KeyIcon() {
       xmlns="http://www.w3.org/2000/svg"
       width="800"
       height="800"
-      fill="#000"
+      fill="#0f6cbd"
       version="1.1"
       viewBox="0 0 485.017 485.017"
       xmlSpace="preserve"

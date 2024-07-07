@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   makeStyles,
   mergeClasses,
+  tokens,
   shorthands,
 } from "@fluentui/react-components";
 
@@ -12,7 +13,7 @@ import { TableColumn } from "../TableColumn/TableColumn";
 
 const useStyles = makeStyles({
   table: {
-    backgroundColor: "#FFF",
+    backgroundColor: tokens.colorNeutralBackground1,
   },
   tableName: {
     position: "relative",
@@ -23,7 +24,7 @@ const useStyles = makeStyles({
     textAlign: "center",
   },
   tableColumns: {
-    border: "1px solid #CBD2D9",
+    border: `1px solid ${tokens.colorNeutralStroke1}`,
     borderTop: 0,
     borderRadius: "0 0 4px 4px",
   },
@@ -36,9 +37,9 @@ const useStyles = makeStyles({
     transform: "translateX(100%) translateY(-50%)",
     padding: "8px",
     zIndex: 1000,
-    border: "1px solid #CBD2D9",
+    border: `1px solid ${tokens.colorNeutralStroke1}`,
     borderRadius: "4px",
-    backgroundColor: "#FFF",
+    backgroundColor: tokens.colorNeutralBackground1,
     fontWeight: "normal",
     textAlign: "left",
     ":after": {
@@ -48,7 +49,9 @@ const useStyles = makeStyles({
       transform: "translateX(-0) translateY(-50%)",
       ...shorthands.borderWidth("3px"),
       ...shorthands.borderStyle("solid"),
-      ...shorthands.borderColor("transparent #FFF transparent transparent"),
+      ...shorthands.borderColor(
+        `transparent ${tokens.colorNeutralBackground1} transparent transparent`
+      ),
       content: '""',
     },
     ":before": {
@@ -58,7 +61,9 @@ const useStyles = makeStyles({
       transform: "translateX(-0.5px) translateY(-50%)",
       ...shorthands.borderWidth("4px"),
       ...shorthands.borderStyle("solid"),
-      ...shorthands.borderColor("transparent #CBD2D9 transparent transparent"),
+      ...shorthands.borderColor(
+        `transparent ${tokens.colorNeutralStroke1} transparent transparent`
+      ),
       content: '""',
     },
   },

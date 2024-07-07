@@ -3,6 +3,7 @@ import {
   makeStyles,
   mergeClasses,
   shorthands,
+  tokens,
 } from "@fluentui/react-components";
 import { Handle, Position } from "reactflow";
 import { KeyIcon } from "../KeyIcon/KeyIcon";
@@ -23,7 +24,7 @@ const useStyles = makeStyles({
     },
 
     "&:hover": {
-      backgroundColor: "#EFEFEF",
+      backgroundColor: tokens.colorNeutralBackground1Hover,
     },
   },
   columnName: {
@@ -49,7 +50,7 @@ const useStyles = makeStyles({
     zIndex: 1000,
     border: "1px solid #CBD2D9",
     borderRadius: "4px",
-    backgroundColor: "#FFF",
+    backgroundColor: tokens.colorNeutralBackground1,
 
     "&:before": {
       position: "absolute",
@@ -70,7 +71,9 @@ const useStyles = makeStyles({
 
       ...shorthands.borderWidth("3px"),
       ...shorthands.borderStyle("solid"),
-      ...shorthands.borderColor("transparent #FFF transparent transparent"),
+      ...shorthands.borderColor(
+        `transparent ${tokens.colorNeutralBackground1} transparent transparent`
+      ),
       content: '""',
     },
   },
