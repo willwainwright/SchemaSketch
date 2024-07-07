@@ -28,7 +28,7 @@ const useStyles = makeStyles({
     },
   },
   columnName: {
-    marginRight: "16px",
+    marginRight: tokens.spacingVerticalS,
   },
   columnType: {
     color: "#BBB",

@@ -11,3 +11,4 @@ export * from "./logTablePositions";
 export * from "./loadExampleConfig";
 export * from "./loadConfig";
 export * from "./calculateEdges";
+export * from "./invertColor";

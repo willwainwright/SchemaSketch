@@ -6,10 +6,11 @@ import {
   shorthands,
 } from "@fluentui/react-components";
 
-import { markdown } from "../../Helpers";
+import { markdown, invertColor } from "../../Helpers";
 
 import "@reactflow/node-resizer/dist/style.css";
 import { TableColumn } from "../TableColumn/TableColumn";
+import { useTheme } from "../../Context/ThemeContext";
 
 const useStyles = makeStyles({
   table: {
@@ -80,6 +81,7 @@ export const TableNode = (props) => {
     useState(false);
 
   const styles = useStyles();
+  const { isLightTheme } = useTheme();
 
   useEffect(() => {
     document.addEventListener(
@@ -103,10 +105,17 @@ export const TableNode = (props) => {
     );
   }, []);
 
+  const getColor = (color) => {
+    console.log("getColor,", color);
+    console.log("isLightTheme,", isLightTheme);
+    if (isLightTheme) return color;
+    return invertColor(color);
+  };
+
   return (
     <div className={styles.table}>
       <div
-        style={{ backgroundColor: data.schemaColor }}
+        style={{ backgroundColor: getColor(data.schemaColor) }}
         className={styles.tableName}
         onMouseEnter={() => {
           if (descriptionOnHoverActive) {

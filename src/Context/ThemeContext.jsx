@@ -5,9 +5,12 @@ const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(webLightTheme);
+  const [isLightTheme, setIsLightTheme] = useState(true);
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme }}>
+    <ThemeContext.Provider
+      value={{ theme, setTheme, isLightTheme, setIsLightTheme }}
+    >
       {children}
     </ThemeContext.Provider>
   );

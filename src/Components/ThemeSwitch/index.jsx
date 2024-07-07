@@ -17,7 +17,7 @@ const useStyles = makeStyles({
 });
 
 const ThemeSwitch = () => {
-  const { setTheme } = useTheme();
+  const { setTheme, setIsLightTheme } = useTheme();
 
   const [isChecked, setIsChecked] = useState(false);
 
@@ -26,6 +26,7 @@ const ThemeSwitch = () => {
   const toggleTheme = (ev) => {
     const theme = ev.currentTarget.checked ? webDarkTheme : webLightTheme;
     setTheme(theme);
+    setIsLightTheme(!ev.currentTarget.checked);
     setIsChecked(!isChecked);
   };
 
