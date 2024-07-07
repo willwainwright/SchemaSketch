@@ -20,6 +20,7 @@ function Routes() {
       <React.Fragment>
         <Route element={<FlowApp />}>
           <Route path="/" element={<Canvas />} />
+          <Route path="/SchemaSketch" element={<Canvas />} />
         </Route>
       </React.Fragment>
     )

@@ -15,11 +15,8 @@ import {
   ArrowDownloadFilled,
 } from "@fluentui/react-icons";
 
-import LogoIcon from "../../assets/images/icons/hexagon.svg";
-import CustomIcon from "../CustomIcon";
 import ThemeSwitch from "../ThemeSwitch";
 import AppIcon from "../AppIcon";
-import { KeyIcon } from "../KeyIcon/KeyIcon";
 
 const useStyles = makeStyles({
   topBar: {

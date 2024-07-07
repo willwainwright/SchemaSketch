@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, tokens } from "@fluentui/react-components";
+import { Button, makeStyles, tokens } from "@fluentui/react-components";
 
 const useStyles = makeStyles({
   BottomBar: {
@@ -8,6 +8,7 @@ const useStyles = makeStyles({
     justifyContent: "flex-start",
     alignItems: "center",
     height: "30px",
+    boxShadow: tokens.shadow4,
   },
 });
 

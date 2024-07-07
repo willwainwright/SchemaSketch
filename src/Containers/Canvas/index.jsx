@@ -11,14 +11,20 @@ import ReactFlow, {
   getIncomers,
   getOutgoers,
 } from "reactflow";
+import { makeStyles, mergeClasses, tokens } from "@fluentui/react-components";
+import {
+  PanelRightExpandFilled,
+  PanelRightExpandRegular,
+  PanelLeftExpandFilled,
+  PanelLeftExpandRegular,
+  bundleIcon,
+} from "@fluentui/react-icons";
 
 import { nodeTypes } from "../../config/nodeTypes";
-
 import { MaximizeIcon } from "../../components/MaximizeIcon/MaximizeIcon";
 import { MinimizeIcon } from "../../components/MinimizeIcon/MinimizeIcon";
 import { Markers } from "../../components/Markers/Markers";
 import { useTheme } from "../../context/ThemeContext";
-
 import {
   edgeClassName,
   edgeMarkerName,
@@ -31,11 +37,18 @@ import {
   calculateEdges,
   loadConfig,
 } from "../../helpers";
+import PanelLeft from "../PanelLeft";
+import PanelRight from "../PanelRight";
 
 // this is important! You need to import the styles from the lib to make it work
 import "reactflow/dist/style.css";
 import "./Style";
-import { makeStyles, tokens } from "@fluentui/react-components";
+
+const PanelLeftIcon = bundleIcon(PanelLeftExpandFilled, PanelLeftExpandRegular);
+const PanelRightIcon = bundleIcon(
+  PanelRightExpandFilled,
+  PanelRightExpandRegular
+);
 
 const useStyles = makeStyles({
   flow: {
@@ -44,6 +57,13 @@ const useStyles = makeStyles({
     flexGrow: 1,
     fontSize: "12px",
     backgroundColor: tokens.colorNeutralBackground1,
+  },
+  buttonToggled: {
+    backgroundColor: tokens.colorNeutralBackground1Pressed,
+
+    ":hover": {
+      backgroundColor: tokens.colorNeutralBackground1Pressed,
+    },
   },
 });
 
@@ -58,6 +78,8 @@ const Flow = (props) => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [fullscreenOn, setFullScreen] = useState(false);
+  const [leftPanelOpen, setLeftPanelOpen] = useState(false);
+  const [rightPanelOpen, setRightPanelOpen] = useState(false);
 
   const onInit = (instance) => {
     const nodes = instance.getNodes();
@@ -234,6 +256,14 @@ const Flow = (props) => {
     [onNodesChange, setEdges, nodes, edges, currentDatabase]
   );
 
+  const togglePanel = (side) => {
+    if (side === "left") {
+      setLeftPanelOpen(!leftPanelOpen);
+    } else {
+      setRightPanelOpen(!rightPanelOpen);
+    }
+  };
+
   const toggleFullScreen = () => {
     if (fullscreenOn) {
       document
@@ -264,32 +294,51 @@ const Flow = (props) => {
 
   // https://stackoverflow.com/questions/16664584/changing-an-svg-markers-color-css
   return (
-    <div className={styles.flow}>
-      <Markers />
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={handleNodesChange}
-        onEdgesChange={onEdgesChange}
-        onInit={onInit}
-        snapToGrid={true}
-        fitView
-        snapGrid={[16, 16]}
-        nodeTypes={nodeTypes}
-        onNodeMouseEnter={onNodeMouseEnter}
-        onNodeMouseLeave={onNodeMouseLeave}
-        onSelectionChange={onSelectionChange}
-        proOptions={{ hideAttribution: true }}
-      >
-        <Controls showInteractive={false}>
-          <ControlButton onClick={toggleFullScreen}>
-            {!fullscreenOn && <MaximizeIcon />}
-            {fullscreenOn && <MinimizeIcon />}
-          </ControlButton>
-        </Controls>
-        <Background color={theme.colorNeutralBackgroundInverted} gap={16} />
-      </ReactFlow>
-    </div>
+    <>
+      <PanelLeft open={leftPanelOpen} />
+      <div className={styles.flow}>
+        <Markers />
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={handleNodesChange}
+          onEdgesChange={onEdgesChange}
+          onInit={onInit}
+          snapToGrid={true}
+          fitView
+          snapGrid={[16, 16]}
+          nodeTypes={nodeTypes}
+          onNodeMouseEnter={onNodeMouseEnter}
+          onNodeMouseLeave={onNodeMouseLeave}
+          onSelectionChange={onSelectionChange}
+          proOptions={{ hideAttribution: true }}
+        >
+          <Controls
+            position={"bottom-center"}
+            style={{ display: "flex", flexDirection: "row" }}
+          >
+            <ControlButton onClick={toggleFullScreen}>
+              {!fullscreenOn && <MaximizeIcon />}
+              {fullscreenOn && <MinimizeIcon />}
+            </ControlButton>
+            <ControlButton
+              onClick={() => togglePanel("left")}
+              className={mergeClasses(leftPanelOpen && styles.buttonToggled)}
+            >
+              <PanelLeftIcon />
+            </ControlButton>
+            <ControlButton
+              onClick={() => togglePanel("right")}
+              className={mergeClasses(rightPanelOpen && styles.buttonToggled)}
+            >
+              <PanelRightIcon />
+            </ControlButton>
+          </Controls>
+          <Background color={theme.colorNeutralBackgroundInverted} gap={16} />
+        </ReactFlow>
+      </div>
+      <PanelRight open={rightPanelOpen} />
+    </>
   );
 };
 

@@ -4,8 +4,6 @@ import { makeStyles } from "@fluentui/react-components";
 
 import TopBar from "../../components/TopBar";
 import BottomBar from "../../components/BottomBar";
-import LeftPanel from "../LeftPanel";
-import RightPanel from "../RightPanel";
 
 const useStyles = makeStyles({
   container: {
@@ -31,9 +29,7 @@ const FlowApp = () => {
     <div className={styles.container}>
       <TopBar />
       <div className={styles.content}>
-        <LeftPanel />
         <Outlet />
-        <RightPanel />
       </div>
       <BottomBar />
     </div>
