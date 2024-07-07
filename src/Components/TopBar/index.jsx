@@ -22,16 +22,23 @@ import AppIcon from "../AppIcon";
 import { KeyIcon } from "../KeyIcon/KeyIcon";
 
 const useStyles = makeStyles({
-  TopBar: {
+  topBar: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     alignItems: "center",
-    paddingLeft: tokens.spacingVerticalXXL,
+    paddingLeft: tokens.spacingHorizontalXXL,
+    paddingRight: tokens.spacingHorizontalM,
     paddingTop: tokens.spacingVerticalSNudge,
     paddingBottom: tokens.spacingVerticalSNudge,
     height: "40px",
     backgroundColor: tokens.colorBrandBackground,
+  },
+  menuGroup: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
   },
 });
 
@@ -40,23 +47,26 @@ const TopBar = React.memo(() => {
   const styles = useStyles();
 
   return (
-    <div className={styles.TopBar}>
-      <AppIcon />
-      <Menu>
-        <MenuTrigger disableButtonEnhancement>
-          <Button>Home</Button>
-        </MenuTrigger>
+    <div className={styles.topBar}>
+      <div className={styles.menuGroup}>
+        <AppIcon />
+        <Menu>
+          <MenuTrigger disableButtonEnhancement>
+            <Button>Home</Button>
+          </MenuTrigger>
 
-        <MenuPopover>
-          <MenuList>
-            <MenuItem icon={<AddFilled />}>New Schema</MenuItem>
-            <MenuItem icon={<OpenFilled />}>Load Schema</MenuItem>
-            <MenuItem icon={<ArrowDownloadFilled />}>Export Schema</MenuItem>
-          </MenuList>
-        </MenuPopover>
-      </Menu>
-
-      <ThemeSwitch />
+          <MenuPopover>
+            <MenuList>
+              <MenuItem icon={<AddFilled />}>New Schema</MenuItem>
+              <MenuItem icon={<OpenFilled />}>Load Schema</MenuItem>
+              <MenuItem icon={<ArrowDownloadFilled />}>Export Schema</MenuItem>
+            </MenuList>
+          </MenuPopover>
+        </Menu>
+      </div>
+      <div className={styles.menuGroup}>
+        <ThemeSwitch />
+      </div>
     </div>
   );
 });

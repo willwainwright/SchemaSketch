@@ -4,15 +4,7 @@ import { WeatherMoonRegular, WeatherMoonFilled } from "@fluentui/react-icons";
 import { useTheme } from "../../context/ThemeContext";
 
 const useStyles = makeStyles({
-  themeSwitcher: {
-    position: "fixed",
-    top: tokens.spacingVerticalL,
-    right: tokens.spacingVerticalL,
-    zIndex: 1000,
-    background: tokens.colorBrandBackground2,
-    padding: tokens.spacingVerticalS,
-    borderRadius: tokens.borderRadiusMedium,
-  },
+  icon: { color: tokens.colorNeutralForegroundStaticInverted },
 });
 
 const ThemeSwitch = () => {
@@ -22,7 +14,7 @@ const ThemeSwitch = () => {
 
   const styles = useStyles();
 
-  const handleSwitchToggle = () => {
+  const handleSwitchToggle = (ev) => {
     toggleTheme();
     setIsChecked(!isChecked);
   };
@@ -31,7 +23,13 @@ const ThemeSwitch = () => {
     <div className={styles.themeSwitcher}>
       <Switch
         checked={isChecked}
-        label={isChecked ? <WeatherMoonFilled /> : <WeatherMoonRegular />}
+        label={
+          isChecked ? (
+            <WeatherMoonFilled className={styles.icon} />
+          ) : (
+            <WeatherMoonRegular className={styles.icon} />
+          )
+        }
         inlineLabel
         onChange={handleSwitchToggle}
       />
