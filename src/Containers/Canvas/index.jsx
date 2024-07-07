@@ -26,7 +26,6 @@ import {
   initializeNodes,
   moveSVGInFront,
   setHighlightEdgeClassName,
-  logTablePositions,
   setEdgeClassName,
   calculateEdges,
   loadConfig,
@@ -45,56 +44,21 @@ const Flow = (props) => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [fullscreenOn, setFullScreen] = useState(false);
-  const [nodeHoverActive, setNodeHoverActive] = useState(true);
 
   const onInit = (instance) => {
     const nodes = instance.getNodes();
     const initialEdges = calculateEdges({ nodes, currentDatabase });
     setEdges(() => initialEdges);
 
-    const handleKeyboard = (e) => {
-      if (e.ctrlKey && e.key === "p") {
-        const nodes = instance.getNodes();
-
-        logTablePositions(nodes);
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyboard);
-
     // https://javascriptf1.com/snippet/detect-fullscreen-mode-with-javascript
     window.addEventListener("resize", (event) => {
       setFullScreen(window.innerHeight === window.screen.height);
     });
-
-    document.addEventListener(
-      "keydown",
-      (e) => {
-        if (e.code === "MetaLeft") {
-          setNodeHoverActive(false);
-        }
-      },
-      false
-    );
-
-    document.addEventListener(
-      "keyup",
-      (e) => {
-        if (e.code === "MetaLeft") {
-          setNodeHoverActive(true);
-        }
-      },
-      false
-    );
   };
 
   // https://github.com/wbkd/react-flow/issues/2580
   const onNodeMouseEnter = useCallback(
     (_, node) => {
-      if (!nodeHoverActive) {
-        return;
-      }
-
       const state = store.getState();
       state.resetSelectedElements();
       state.addSelectedNodes([node.id]);
@@ -110,15 +74,11 @@ const Flow = (props) => {
         });
       });
     },
-    [edges, nodeHoverActive, setEdges, store]
+    [edges, setEdges, store]
   );
 
   const onNodeMouseLeave = useCallback(
     (_, node) => {
-      if (!nodeHoverActive) {
-        return;
-      }
-
       const state = store.getState();
       state.resetSelectedElements();
 
@@ -127,7 +87,7 @@ const Flow = (props) => {
       // https://stackoverflow.com/questions/2520650/how-do-you-clear-the-focus-in-javascript
       document.activeElement.blur();
     },
-    [nodeHoverActive, setEdges, store]
+    [setEdges, store]
   );
 
   const onSelectionChange = useCallback((params) => {

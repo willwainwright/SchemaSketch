@@ -1,5 +1,9 @@
 import React from "react";
-import { makeStyles, mergeClasses } from "@fluentui/react-components";
+import {
+  makeStyles,
+  mergeClasses,
+  shorthands,
+} from "@fluentui/react-components";
 import { Handle, Position } from "reactflow";
 import { KeyIcon } from "../KeyIcon/KeyIcon";
 import { markdown } from "../../Helpers";
@@ -52,9 +56,9 @@ const useStyles = makeStyles({
       top: "50%",
       right: "100%",
       transform: "translateX(-0.5px) translateY(-50%)",
-      borderWidth: "4px",
-      borderStyle: "solid",
-      borderColor: "transparent #CBD2D9 transparent transparent",
+      ...shorthands.borderWidth("4px"),
+      ...shorthands.borderStyle("solid"),
+      ...shorthands.borderColor("transparent #CBD2D9 transparent transparent"),
       content: '""',
     },
 
@@ -63,9 +67,10 @@ const useStyles = makeStyles({
       top: "50%",
       right: "100%",
       transform: "translateX(0px) translateY(-50%)",
-      borderWidth: "3px",
-      borderStyle: "solid",
-      borderColor: "transparent #FFF transparent transparent",
+
+      ...shorthands.borderWidth("3px"),
+      ...shorthands.borderStyle("solid"),
+      ...shorthands.borderColor("transparent #FFF transparent transparent"),
       content: '""',
     },
   },
