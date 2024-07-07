@@ -1,41 +1,16 @@
 import React from "react";
 import { makeStyles, tokens, mergeClasses } from "@fluentui/react-components";
+import Panel from "../../components/Panel";
 
-const useStyles = makeStyles({
-  panelContainer: {
-    position: "absolute",
-    paddingTop: tokens.spacingVerticalSNudge,
-    paddingBottom: tokens.spacingVerticalSNudge,
-    width: "0px",
-    height: "100%",
-    right: "0",
-    zIndex: 10,
-    backgroundColor: tokens.colorNeutralBackground1,
-    boxShadow: tokens.shadow4,
-  },
-  panelOpen: {
-    width: "300px",
-  },
-  panelContent: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    transition: "width 0.2s ease",
-  },
-});
+const useStyles = makeStyles({});
 
-const RightLeft = (props) => {
+const PanelRight = (props) => {
   const { open } = props;
 
   // Hooks
   const styles = useStyles();
 
-  return (
-    <div
-      className={mergeClasses(styles.panelContainer, open && styles.panelOpen)}
-    ></div>
-  );
+  return <Panel open={open}> Right Panel </Panel>;
 };
 
-export default RightLeft;
+export default PanelRight;
