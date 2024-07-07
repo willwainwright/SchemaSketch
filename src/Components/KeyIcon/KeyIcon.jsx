@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@fluentui/react-components";
-import { useTheme } from "../../Context/ThemeContext";
+import { useTheme } from "../../context/ThemeContext";
 
 const useStyles = makeStyles({
   keyIcon: {

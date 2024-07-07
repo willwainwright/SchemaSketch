@@ -6,11 +6,11 @@ import {
   shorthands,
 } from "@fluentui/react-components";
 
-import { markdown, invertColor } from "../../Helpers";
+import { markdown, invertColor } from "../../helpers";
 
 import "@reactflow/node-resizer/dist/style.css";
 import { TableColumn } from "../TableColumn/TableColumn";
-import { useTheme } from "../../Context/ThemeContext";
+import { useTheme } from "../../context/ThemeContext";
 
 const useStyles = makeStyles({
   table: {

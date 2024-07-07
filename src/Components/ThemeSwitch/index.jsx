@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Switch, makeStyles, tokens } from "@fluentui/react-components";
-import { webLightTheme, webDarkTheme } from "@fluentui/react-components";
 import { WeatherMoonRegular, WeatherMoonFilled } from "@fluentui/react-icons";
-import { useTheme } from "../../Context/ThemeContext";
+import { useTheme } from "../../context/ThemeContext";
 
 const useStyles = makeStyles({
   themeSwitcher: {
@@ -17,16 +16,14 @@ const useStyles = makeStyles({
 });
 
 const ThemeSwitch = () => {
-  const { setTheme, setIsLightTheme } = useTheme();
+  const { toggleTheme } = useTheme();
 
   const [isChecked, setIsChecked] = useState(false);
 
   const styles = useStyles();
 
-  const toggleTheme = (ev) => {
-    const theme = ev.currentTarget.checked ? webDarkTheme : webLightTheme;
-    setTheme(theme);
-    setIsLightTheme(!ev.currentTarget.checked);
+  const handleSwitchToggle = () => {
+    toggleTheme();
     setIsChecked(!isChecked);
   };
 
@@ -36,7 +33,7 @@ const ThemeSwitch = () => {
         checked={isChecked}
         label={isChecked ? <WeatherMoonFilled /> : <WeatherMoonRegular />}
         inlineLabel
-        onChange={toggleTheme}
+        onChange={handleSwitchToggle}
       />
     </div>
   );

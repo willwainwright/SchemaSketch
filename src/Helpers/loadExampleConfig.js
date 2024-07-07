@@ -1,8 +1,8 @@
 import { fullTableName } from "./fullTableName";
-import edgeConfigs from "../ExampleData/edges.json";
-import tablePositions from "../ExampleData/tablePositions.json";
-import schemaColors from "../ExampleData/schemaColors.json";
-import tables from "../ExampleData/tables";
+import edgeConfigs from "../data/ExampleData/edges.json";
+import tablePositions from "../data/ExampleData/tablePositions.json";
+import schemaColors from "../data/ExampleData/schemaColors.json";
+import tables from "../data/ExampleData/tables";
 
 export const loadExampleConfig = async () => {
   edgeConfigs.forEach((edgeConfig) => {

@@ -12,12 +12,12 @@ import ReactFlow, {
   getOutgoers,
 } from "reactflow";
 
-import { nodeTypes } from "../../Config/nodeTypes";
+import { nodeTypes } from "../../config/nodeTypes";
 
-import { MaximizeIcon } from "../../Components/MaximizeIcon/MaximizeIcon";
-import { MinimizeIcon } from "../../Components/MinimizeIcon/MinimizeIcon";
-import { Markers } from "../../Components/Markers/Markers";
-import { useTheme } from "../../Context/ThemeContext";
+import { MaximizeIcon } from "../../components/MaximizeIcon/MaximizeIcon";
+import { MinimizeIcon } from "../../components/MinimizeIcon/MinimizeIcon";
+import { Markers } from "../../components/Markers/Markers";
+import { useTheme } from "../../context/ThemeContext";
 
 import {
   edgeClassName,
@@ -30,7 +30,7 @@ import {
   setEdgeClassName,
   calculateEdges,
   loadConfig,
-} from "../../Helpers";
+} from "../../helpers";
 
 // this is important! You need to import the styles from the lib to make it work
 import "reactflow/dist/style.css";
@@ -279,6 +279,7 @@ const Flow = (props) => {
         onNodeMouseEnter={onNodeMouseEnter}
         onNodeMouseLeave={onNodeMouseLeave}
         onSelectionChange={onSelectionChange}
+        proOptions={{ hideAttribution: true }}
       >
         <Controls showInteractive={false}>
           <ControlButton onClick={toggleFullScreen}>

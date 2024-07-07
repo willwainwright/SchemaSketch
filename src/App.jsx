@@ -1,21 +1,38 @@
 import React from "react";
 import { FluentProvider, webLightTheme } from "@fluentui/react-components";
+import {
+  Route,
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+} from "react-router-dom";
 
 import "./App.css";
-import Canvas from "./Containers/Canvas";
-import ThemeSwitch from "./Components/ThemeSwitch";
-import { ThemeProvider, useTheme } from "./Context/ThemeContext";
+import Canvas from "./containers/Canvas";
+import FlowApp from "./containers/FlowApp";
+import { ThemeProvider, useTheme } from "./context/ThemeContext";
+
+// https://coolors.co/palette/606c38-283618-fefae0-dda15e-bc6c25
+
+function Routes() {
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <React.Fragment>
+        <Route element={<FlowApp />}>
+          <Route path="/" element={<Canvas />} />
+        </Route>
+      </React.Fragment>
+    )
+  );
+
+  return <RouterProvider router={router} />;
+}
 
 const AppContent = () => {
   const { theme } = useTheme();
   return (
     <FluentProvider theme={theme ?? webLightTheme}>
-      <div className="layout">
-        <div className="layout__outlet">
-          <Canvas />
-        </div>
-      </div>
-      <ThemeSwitch />
+      <Routes />
     </FluentProvider>
   );
 };

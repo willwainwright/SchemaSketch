@@ -7,7 +7,7 @@ import {
 } from "@fluentui/react-components";
 import { Handle, Position } from "reactflow";
 import { KeyIcon } from "../KeyIcon/KeyIcon";
-import { markdown } from "../../Helpers";
+import { markdown } from "../../helpers";
 
 const useStyles = makeStyles({
   column: {

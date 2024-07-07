@@ -1,16 +1,20 @@
 import React, { createContext, useContext, useState } from "react";
-import { webLightTheme } from "@fluentui/react-components";
+import { customLightTheme, customDarkTheme } from "../theme";
 
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState(webLightTheme);
+  const [theme, setTheme] = useState(customLightTheme);
   const [isLightTheme, setIsLightTheme] = useState(true);
 
+  const toggleTheme = () => {
+    const newTheme = isLightTheme ? customDarkTheme : customLightTheme;
+    setTheme(newTheme);
+    setIsLightTheme(!isLightTheme);
+  };
+
   return (
-    <ThemeContext.Provider
-      value={{ theme, setTheme, isLightTheme, setIsLightTheme }}
-    >
+    <ThemeContext.Provider value={{ theme, toggleTheme, isLightTheme }}>
       {children}
     </ThemeContext.Provider>
   );
