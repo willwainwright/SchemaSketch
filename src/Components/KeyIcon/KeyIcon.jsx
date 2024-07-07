@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@fluentui/react-components";
+import { useTheme } from "../../Context/ThemeContext";
 
 const useStyles = makeStyles({
   keyIcon: {
@@ -10,13 +11,14 @@ const useStyles = makeStyles({
 });
 export function KeyIcon() {
   const styles = useStyles();
+  const { theme } = useTheme();
 
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="800"
       height="800"
-      fill="#0f6cbd"
+      fill={theme.colorNeutralForeground1}
       version="1.1"
       viewBox="0 0 485.017 485.017"
       xmlSpace="preserve"

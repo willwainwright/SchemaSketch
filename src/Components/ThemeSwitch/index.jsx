@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Switch, makeStyles, tokens } from "@fluentui/react-components";
 import { webLightTheme, webDarkTheme } from "@fluentui/react-components";
 import { WeatherMoonRegular, WeatherMoonFilled } from "@fluentui/react-icons";
+import { useTheme } from "../../Context/ThemeContext";
 
 const useStyles = makeStyles({
   themeSwitcher: {
@@ -15,8 +16,8 @@ const useStyles = makeStyles({
   },
 });
 
-const ThemeSwitch = (props) => {
-  const { setTheme } = props;
+const ThemeSwitch = () => {
+  const { setTheme } = useTheme();
 
   const [isChecked, setIsChecked] = useState(false);
 

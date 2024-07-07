@@ -17,6 +17,7 @@ import { nodeTypes } from "../../Config/nodeTypes";
 import { MaximizeIcon } from "../../Components/MaximizeIcon/MaximizeIcon";
 import { MinimizeIcon } from "../../Components/MinimizeIcon/MinimizeIcon";
 import { Markers } from "../../Components/Markers/Markers";
+import { useTheme } from "../../Context/ThemeContext";
 
 import {
   edgeClassName,
@@ -34,11 +35,24 @@ import {
 // this is important! You need to import the styles from the lib to make it work
 import "reactflow/dist/style.css";
 import "./Style";
+import { makeStyles, tokens } from "@fluentui/react-components";
+
+const useStyles = makeStyles({
+  flow: {
+    width: "100%",
+    height: "100%",
+    flexGrow: 1,
+    fontSize: "12px",
+    backgroundColor: tokens.colorNeutralBackground1,
+  },
+});
 
 const Flow = (props) => {
   const { currentDatabase } = props;
   const initialNodes = initializeNodes(currentDatabase);
 
+  const styles = useStyles();
+  const { theme } = useTheme();
   const store = useStoreApi();
   // eslint-disable-next-line
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
@@ -250,7 +264,7 @@ const Flow = (props) => {
 
   // https://stackoverflow.com/questions/16664584/changing-an-svg-markers-color-css
   return (
-    <div className="Flow">
+    <div className={styles.flow}>
       <Markers />
       <ReactFlow
         nodes={nodes}
@@ -272,7 +286,7 @@ const Flow = (props) => {
             {fullscreenOn && <MinimizeIcon />}
           </ControlButton>
         </Controls>
-        <Background color="#aaa" gap={16} />
+        <Background color={theme.colorNeutralBackgroundInverted} gap={16} />
       </ReactFlow>
     </div>
   );
