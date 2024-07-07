@@ -1,23 +1,8 @@
 import React from "react";
 import { makeStyles, tokens, mergeClasses } from "@fluentui/react-components";
+import Panel from "../../components/Panel";
 
-const useStyles = makeStyles({
-  leftPanel: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    paddingTop: tokens.spacingVerticalSNudge,
-    paddingBottom: tokens.spacingVerticalSNudge,
-    width: "0px",
-    height: "100%",
-    transition: "width 0.2s ease",
-  },
-  leftPanelOpen: {
-    width: "400px",
-    borderRight: `1px solid ${tokens.colorNeutralStroke3}`,
-  },
-});
+const useStyles = makeStyles({});
 
 const PanelLeft = (props) => {
   const { open } = props;
@@ -25,11 +10,7 @@ const PanelLeft = (props) => {
   // Hooks
   const styles = useStyles();
 
-  return (
-    <div
-      className={mergeClasses(styles.leftPanel, open && styles.leftPanelOpen)}
-    ></div>
-  );
+  return <Panel open={open}> Left Panel </Panel>;
 };
 
 export default PanelLeft;

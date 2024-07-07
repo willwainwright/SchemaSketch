@@ -8,25 +8,29 @@ const useStyles = makeStyles({
     paddingBottom: tokens.spacingVerticalSNudge,
     width: "0px",
     height: "100%",
-    right: "0",
+    left: "0",
     zIndex: 10,
     backgroundColor: tokens.colorNeutralBackground1,
     boxShadow: tokens.shadow4,
+    transition: "width 0.2s ease",
+    visibility: "hidden",
+    overflow: "hidden",
   },
   panelOpen: {
     width: "300px",
+    display: "block",
+    visibility: "visible",
   },
   panelContent: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-    transition: "width 0.2s ease",
   },
 });
 
-const RightLeft = (props) => {
-  const { open } = props;
+const Panel = (props) => {
+  const { open, children } = props;
 
   // Hooks
   const styles = useStyles();
@@ -34,8 +38,10 @@ const RightLeft = (props) => {
   return (
     <div
       className={mergeClasses(styles.panelContainer, open && styles.panelOpen)}
-    ></div>
+    >
+      {children}
+    </div>
   );
 };
 
-export default RightLeft;
+export default Panel;
