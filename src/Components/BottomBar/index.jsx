@@ -7,9 +7,7 @@ const useStyles = makeStyles({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-    paddingTop: tokens.spacingVerticalSNudge,
-    paddingBottom: tokens.spacingVerticalSNudge,
-    height: "40px",
+    height: "30px",
   },
 });
 

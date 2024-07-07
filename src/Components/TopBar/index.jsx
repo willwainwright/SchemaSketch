@@ -27,6 +27,7 @@ const useStyles = makeStyles({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
+    paddingLeft: tokens.spacingVerticalXXL,
     paddingTop: tokens.spacingVerticalSNudge,
     paddingBottom: tokens.spacingVerticalSNudge,
     height: "40px",
