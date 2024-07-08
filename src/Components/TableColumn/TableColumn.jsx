@@ -7,7 +7,6 @@ import {
 } from "@fluentui/react-components";
 import { Handle, Position } from "reactflow";
 import { KeyIcon } from "../KeyIcon/KeyIcon";
-import { markdown } from "../../helpers";
 
 const useStyles = makeStyles({
   column: {
@@ -39,44 +38,7 @@ const useStyles = makeStyles({
     padding: "8px",
     position: "relative",
   },
-  columnDescription: {
-    display: "none",
-    position: "absolute",
-    top: "50%",
-    right: "-6px",
-    width: "150px",
-    transform: "translateX(100%) translateY(-50%)",
-    padding: "8px",
-    zIndex: 1000,
-    border: "1px solid #CBD2D9",
-    borderRadius: "4px",
-    backgroundColor: tokens.colorNeutralBackground1,
 
-    "&:before": {
-      position: "absolute",
-      top: "50%",
-      right: "100%",
-      transform: "translateX(-0.5px) translateY(-50%)",
-      ...shorthands.borderWidth("4px"),
-      ...shorthands.borderStyle("solid"),
-      ...shorthands.borderColor("transparent #CBD2D9 transparent transparent"),
-      content: '""',
-    },
-
-    "&:after": {
-      position: "absolute",
-      top: "50%",
-      right: "100%",
-      transform: "translateX(0px) translateY(-50%)",
-
-      ...shorthands.borderWidth("3px"),
-      ...shorthands.borderStyle("solid"),
-      ...shorthands.borderColor(
-        `transparent ${tokens.colorNeutralBackground1} transparent transparent`
-      ),
-      content: '""',
-    },
-  },
   selected: {
     display: "block",
   },
@@ -106,6 +68,7 @@ export const TableColumn = (props) => {
     selectedColumn,
     descriptionOnHoverActive,
     setSelectedColumn,
+    showColumns,
   } = props;
 
   const styles = useStyles();
@@ -123,7 +86,7 @@ export const TableColumn = (props) => {
       }}
       onMouseLeave={() => setSelectedColumn("")}
     >
-      {column.handleType && (
+      {showColumns && column.handleType && (
         <Handle
           type={column.handleType}
           position={Position.Right}
@@ -136,7 +99,7 @@ export const TableColumn = (props) => {
           )}
         />
       )}
-      {column.handleType && (
+      {showColumns && column.handleType && (
         <Handle
           type={column.handleType}
           position={Position.Left}
@@ -158,13 +121,6 @@ export const TableColumn = (props) => {
         <div className={mergeClasses(styles.columnName, styles.columnNameType)}>
           {column.type}
         </div>
-
-        <div
-          className={mergeClasses(styles.columnName, styles.columnDescription)}
-          dangerouslySetInnerHTML={{
-            __html: markdown(column.description || "No description."),
-          }}
-        />
       </div>
     </div>
   );

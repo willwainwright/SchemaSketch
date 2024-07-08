@@ -1,21 +1,20 @@
 import React, { useState } from "react";
 import { Switch, makeStyles, tokens } from "@fluentui/react-components";
-import { WeatherMoonRegular, WeatherMoonFilled } from "@fluentui/react-icons";
 import { useCanvasSettings } from "../../context/CanvasSettingsContext";
 
 const useStyles = makeStyles({
   icon: { color: tokens.colorNeutralForegroundStaticInverted },
 });
 
-const ThemeSwitch = () => {
-  const { toggleTheme } = useCanvasSettings();
+const ShowColumnsSwitch = () => {
+  const { toggleShowColumns } = useCanvasSettings();
 
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(true);
 
   const styles = useStyles();
 
   const handleSwitchToggle = (ev) => {
-    toggleTheme();
+    toggleShowColumns();
     setIsChecked(!isChecked);
   };
 
@@ -23,13 +22,7 @@ const ThemeSwitch = () => {
     <div className={styles.themeSwitcher}>
       <Switch
         checked={isChecked}
-        label={
-          isChecked ? (
-            <WeatherMoonFilled className={styles.icon} />
-          ) : (
-            <WeatherMoonRegular className={styles.icon} />
-          )
-        }
+        label={"Show Column"}
         inlineLabel
         onChange={handleSwitchToggle}
       />
@@ -37,4 +30,4 @@ const ThemeSwitch = () => {
   );
 };
 
-export default ThemeSwitch;
+export default ShowColumnsSwitch;

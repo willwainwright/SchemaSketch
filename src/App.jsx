@@ -10,9 +10,10 @@ import {
 import "./App.css";
 import Canvas from "./containers/Canvas";
 import FlowApp from "./containers/FlowApp";
-import { ThemeProvider, useTheme } from "./context/ThemeContext";
-
-// https://coolors.co/palette/606c38-283618-fefae0-dda15e-bc6c25
+import {
+  CanvasSettingsProvider,
+  useCanvasSettings,
+} from "./context/CanvasSettingsContext";
 
 function Routes() {
   const router = createBrowserRouter(
@@ -30,7 +31,7 @@ function Routes() {
 }
 
 const AppContent = () => {
-  const { theme } = useTheme();
+  const { theme } = useCanvasSettings();
   return (
     <FluentProvider theme={theme ?? webLightTheme}>
       <Routes />
@@ -40,9 +41,9 @@ const AppContent = () => {
 
 function App() {
   return (
-    <ThemeProvider>
+    <CanvasSettingsProvider>
       <AppContent />
-    </ThemeProvider>
+    </CanvasSettingsProvider>
   );
 }
 

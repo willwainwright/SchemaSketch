@@ -1,8 +1,17 @@
 import React from "react";
-import { makeStyles, tokens, mergeClasses } from "@fluentui/react-components";
+import { makeStyles, tokens } from "@fluentui/react-components";
 import Panel from "../../components/Panel";
 
-const useStyles = makeStyles({});
+const useStyles = makeStyles({
+  titleBar: {
+    height: "20px",
+    width: "100%",
+    backgroundColor: tokens.colorPaletteLightTealBackground2,
+    textAlign: "center",
+    paddingTop: tokens.spacingVerticalS,
+    paddingBottom: tokens.spacingVerticalS,
+  },
+});
 
 const PanelRight = (props) => {
   const { open } = props;
@@ -10,7 +19,11 @@ const PanelRight = (props) => {
   // Hooks
   const styles = useStyles();
 
-  return <Panel open={open}> Right Panel </Panel>;
+  return (
+    <Panel open={open} side="right">
+      <div className={styles.titleBar}>Properties</div>
+    </Panel>
+  );
 };
 
 export default PanelRight;

@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, makeStyles, tokens } from "@fluentui/react-components";
+import { useOnViewportChange, useReactFlow, useViewport } from "reactflow";
 
 const useStyles = makeStyles({
   BottomBar: {
@@ -12,11 +13,29 @@ const useStyles = makeStyles({
   },
 });
 
-const BottomBar = React.memo(() => {
+const BottomBar = () => {
+  const [showPositions, setShowPositions] = useState(false);
+
   // Hooks
   const styles = useStyles();
+  const { x, y, zoom } = useViewport();
+  const { zoomIn } = useReactFlow();
 
-  return <div className={styles.BottomBar}></div>;
-});
+  useOnViewportChange({
+    onStart: () => setShowPositions(true),
+    onEnd: () => setShowPositions(false),
+  });
+
+  return (
+    <div className={styles.BottomBar}>
+      <Button onClick={zoomIn}>Zoom</Button>
+      {showPositions && (
+        <p>
+          ({x.toFixed(2)}, {y.toFixed(2)})
+        </p>
+      )}
+    </div>
+  );
+};
 
 export default BottomBar;

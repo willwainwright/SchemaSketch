@@ -6,7 +6,6 @@ import ReactFlow, {
   ControlButton,
   Background,
   useStoreApi,
-  ReactFlowProvider,
   getConnectedEdges,
   getIncomers,
   getOutgoers,
@@ -24,7 +23,7 @@ import { nodeTypes } from "../../config/nodeTypes";
 import { MaximizeIcon } from "../../components/MaximizeIcon/MaximizeIcon";
 import { MinimizeIcon } from "../../components/MinimizeIcon/MinimizeIcon";
 import { Markers } from "../../components/Markers/Markers";
-import { useTheme } from "../../context/ThemeContext";
+import { useCanvasSettings } from "../../context/CanvasSettingsContext";
 import {
   edgeClassName,
   edgeMarkerName,
@@ -36,6 +35,7 @@ import {
   setEdgeClassName,
   calculateEdges,
   loadConfig,
+  calculateEdgesTable,
 } from "../../helpers";
 import PanelLeft from "../PanelLeft";
 import PanelRight from "../PanelRight";
@@ -72,7 +72,7 @@ const Flow = (props) => {
   const initialNodes = initializeNodes(currentDatabase);
 
   const styles = useStyles();
-  const { theme } = useTheme();
+  const { theme } = useCanvasSettings();
   const store = useStoreApi();
   // eslint-disable-next-line
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
@@ -84,6 +84,9 @@ const Flow = (props) => {
   const onInit = (instance) => {
     const nodes = instance.getNodes();
     const initialEdges = calculateEdges({ nodes, currentDatabase });
+
+    // const initialEdges = calculateEdgesTable({ nodes, currentDatabase });
+
     setEdges(() => initialEdges);
 
     // https://javascriptf1.com/snippet/detect-fullscreen-mode-with-javascript
@@ -136,6 +139,7 @@ const Flow = (props) => {
     });
   }, []);
 
+  // This moves the edge to use the other side node on rearrange
   const handleNodesChange = useCallback(
     (nodeChanges) => {
       nodeChanges.forEach((nodeChange) => {
@@ -362,11 +366,7 @@ const Canvas = () => {
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return (
-    <ReactFlowProvider>
-      {databasesLoaded && <Flow currentDatabase={currentDatabase} />}
-    </ReactFlowProvider>
-  );
+  return <>{databasesLoaded && <Flow currentDatabase={currentDatabase} />}</>;
 };
 
 export default Canvas;

@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@fluentui/react-components";
-import { useTheme } from "../../context/ThemeContext";
+import { useCanvasSettings } from "../../context/CanvasSettingsContext";
 
 const useStyles = makeStyles({
   appIcon: {
@@ -11,7 +11,7 @@ const useStyles = makeStyles({
 });
 function AppIcon() {
   const styles = useStyles();
-  const { theme } = useTheme();
+  const { theme } = useCanvasSettings();
 
   return (
     <svg

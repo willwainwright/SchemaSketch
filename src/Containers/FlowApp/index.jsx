@@ -4,6 +4,7 @@ import { makeStyles } from "@fluentui/react-components";
 
 import TopBar from "../../components/TopBar";
 import BottomBar from "../../components/BottomBar";
+import { ReactFlowProvider } from "reactflow";
 
 const useStyles = makeStyles({
   container: {
@@ -26,13 +27,15 @@ const FlowApp = () => {
   const styles = useStyles();
 
   return (
-    <div className={styles.container}>
-      <TopBar />
-      <div className={styles.content}>
-        <Outlet />
+    <ReactFlowProvider>
+      <div className={styles.container}>
+        <TopBar />
+        <div className={styles.content}>
+          <Outlet />
+        </div>
+        <BottomBar />
       </div>
-      <BottomBar />
-    </div>
+    </ReactFlowProvider>
   );
 };
 
