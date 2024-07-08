@@ -58,6 +58,8 @@ export const TableNode = (props) => {
         style={{ backgroundColor: getColor(data.schemaColor) }}
         className={styles.tableHeader}
       >
+        {/* Add four handles to the header card. This is for the collapsed view
+        TODO find a way of bidirectional edges rather than the four (it does work though)  */}
         <Handle
           type={"source"}
           position={Position.Left}
