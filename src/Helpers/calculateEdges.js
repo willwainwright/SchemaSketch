@@ -6,6 +6,12 @@ import { calculateTargetPosition } from "./calculateTargetPosition";
 export const calculateEdges = ({ nodes, currentDatabase }) => {
   const initialEdges = [];
 
+  console.log("calculateEdges-nodes", nodes);
+  console.log("calculateEdges-currentDatabase", currentDatabase);
+
+  if (!currentDatabase?.edgeConfigs) return;
+  if (!nodes || nodes?.length === 0) return;
+
   currentDatabase.edgeConfigs.forEach((edgeConfig) => {
     const sourceNode = nodes.find((node) => node.id === edgeConfig.source);
     const targetNode = nodes.find((node) => node.id === edgeConfig.target);
