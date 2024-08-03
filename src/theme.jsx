@@ -1,4 +1,4 @@
-import { webLightTheme, webDarkTheme } from "@fluentui/react-components";
+import { webDarkTheme, webLightTheme } from "@fluentui/react-components";
 
 export const customLightTheme = {
   ...webLightTheme,

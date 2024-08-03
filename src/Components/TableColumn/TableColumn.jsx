@@ -68,7 +68,6 @@ export const TableColumn = (props) => {
     selectedColumn,
     descriptionOnHoverActive,
     setSelectedColumn,
-    showColumns,
   } = props;
 
   const styles = useStyles();
@@ -86,7 +85,7 @@ export const TableColumn = (props) => {
       }}
       onMouseLeave={() => setSelectedColumn("")}
     >
-      {showColumns && column.handleType && (
+      {column.handleType && (
         <Handle
           type={column.handleType}
           position={Position.Right}
@@ -99,7 +98,7 @@ export const TableColumn = (props) => {
           )}
         />
       )}
-      {showColumns && column.handleType && (
+      {column.handleType && (
         <Handle
           type={column.handleType}
           position={Position.Left}

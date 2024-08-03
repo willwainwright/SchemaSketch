@@ -6,7 +6,7 @@ const CanvasSettingsContext = createContext();
 export const CanvasSettingsProvider = ({ children }) => {
   const [theme, setTheme] = useState(customLightTheme);
   const [isLightTheme, setIsLightTheme] = useState(true);
-  const [showColumns, setShowColumns] = useState(true);
+  const [nodesCollapsed, setShowColumns] = useState(false);
 
   const toggleTheme = () => {
     const newTheme = isLightTheme ? customDarkTheme : customLightTheme;
@@ -15,7 +15,7 @@ export const CanvasSettingsProvider = ({ children }) => {
   };
 
   const toggleShowColumns = () => {
-    setShowColumns(!showColumns);
+    setShowColumns(!nodesCollapsed);
   };
 
   return (
@@ -24,7 +24,7 @@ export const CanvasSettingsProvider = ({ children }) => {
         theme,
         toggleTheme,
         isLightTheme,
-        showColumns,
+        nodesCollapsed,
         toggleShowColumns,
       }}
     >

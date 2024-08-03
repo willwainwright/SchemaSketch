@@ -1,22 +1,27 @@
-import React from "react";
 import {
-  makeStyles,
   Button,
-  tokens,
   Menu,
-  MenuTrigger,
-  MenuPopover,
-  MenuList,
   MenuItem,
+  MenuList,
+  MenuPopover,
+  MenuTrigger,
+  makeStyles,
+  tokens,
 } from "@fluentui/react-components";
 import {
   AddFilled,
-  OpenFilled,
   ArrowDownloadFilled,
+  OpenFilled,
+  QuestionCircleFilled,
+  QuestionCircleRegular,
+  SettingsFilled,
+  SettingsRegular,
+  bundleIcon,
 } from "@fluentui/react-icons";
+import React from "react";
 
-import ThemeSwitch from "../ThemeSwitch";
 import AppIcon from "../AppIcon";
+import ThemeSwitch from "../ThemeSwitch";
 
 const useStyles = makeStyles({
   topBar: {
@@ -37,12 +42,15 @@ const useStyles = makeStyles({
     justifyContent: "flex-start",
     alignItems: "center",
   },
+  menuButtons: { color: tokens.colorNeutralForegroundOnBrand },
 });
 
 const TopBar = React.memo(() => {
   // Hooks
   const styles = useStyles();
 
+  const SettingsIcon = bundleIcon(SettingsFilled, SettingsRegular);
+  const HelpIcon = bundleIcon(QuestionCircleFilled, QuestionCircleRegular);
   return (
     <div className={styles.topBar}>
       <div className={styles.menuGroup}>
@@ -62,7 +70,17 @@ const TopBar = React.memo(() => {
         </Menu>
       </div>
       <div className={styles.menuGroup}>
+        <Button
+          icon={<HelpIcon />}
+          appearance="subtle"
+          className={styles.menuButtons}
+        />
         <ThemeSwitch />
+        <Button
+          icon={<SettingsIcon />}
+          appearance="subtle"
+          className={styles.menuButtons}
+        />
       </div>
     </div>
   );

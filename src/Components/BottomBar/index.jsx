@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import { Button, makeStyles, tokens } from "@fluentui/react-components";
+import React, { useState } from "react";
 import { useOnViewportChange, useReactFlow, useViewport } from "reactflow";
 
 const useStyles = makeStyles({
@@ -10,6 +10,7 @@ const useStyles = makeStyles({
     alignItems: "center",
     height: "30px",
     boxShadow: tokens.shadow4,
+    backgroundColor: "green",
   },
 });
 

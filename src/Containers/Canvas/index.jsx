@@ -1,41 +1,40 @@
+import { makeStyles, mergeClasses, tokens } from "@fluentui/react-components";
+import {
+  PanelLeftExpandFilled,
+  PanelLeftExpandRegular,
+  PanelRightExpandFilled,
+  PanelRightExpandRegular,
+  bundleIcon,
+} from "@fluentui/react-icons";
 import { useCallback, useEffect, useState } from "react";
 import ReactFlow, {
-  useNodesState,
-  useEdgesState,
-  Controls,
-  ControlButton,
   Background,
-  useStoreApi,
+  ControlButton,
+  Controls,
   getConnectedEdges,
   getIncomers,
   getOutgoers,
+  useEdgesState,
+  useNodesState,
+  useStoreApi,
 } from "reactflow";
-import { makeStyles, mergeClasses, tokens } from "@fluentui/react-components";
-import {
-  PanelRightExpandFilled,
-  PanelRightExpandRegular,
-  PanelLeftExpandFilled,
-  PanelLeftExpandRegular,
-  bundleIcon,
-} from "@fluentui/react-icons";
 
-import { nodeTypes } from "../../config/nodeTypes";
+import { Markers } from "../../components/Markers/Markers";
 import { MaximizeIcon } from "../../components/MaximizeIcon/MaximizeIcon";
 import { MinimizeIcon } from "../../components/MinimizeIcon/MinimizeIcon";
-import { Markers } from "../../components/Markers/Markers";
+import { nodeTypes } from "../../config/nodeTypes";
 import { useCanvasSettings } from "../../context/CanvasSettingsContext";
 import {
+  calculateEdges,
+  calculateSourcePosition,
+  calculateTargetPosition,
   edgeClassName,
   edgeMarkerName,
-  calculateTargetPosition,
-  calculateSourcePosition,
   initializeNodes,
-  moveSVGInFront,
-  setHighlightEdgeClassName,
-  setEdgeClassName,
-  calculateEdges,
   loadConfig,
-  calculateEdgesTable,
+  moveSVGInFront,
+  setEdgeClassName,
+  setHighlightEdgeClassName,
 } from "../../helpers";
 import PanelLeft from "../PanelLeft";
 import PanelRight from "../PanelRight";
@@ -69,17 +68,18 @@ const useStyles = makeStyles({
 
 const Flow = (props) => {
   const { currentDatabase } = props;
-  const initialNodes = initializeNodes(currentDatabase);
+  const initialNodes = initializeNodes(currentDatabase, false);
 
-  const styles = useStyles();
-  const { theme } = useCanvasSettings();
-  const store = useStoreApi();
   // eslint-disable-next-line
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [fullscreenOn, setFullScreen] = useState(false);
   const [leftPanelOpen, setLeftPanelOpen] = useState(false);
   const [rightPanelOpen, setRightPanelOpen] = useState(false);
+
+  const styles = useStyles();
+  const { theme, nodesCollapsed, toggleShowColumns } = useCanvasSettings();
+  const store = useStoreApi();
 
   const onInit = (instance) => {
     const nodes = instance.getNodes();
@@ -94,6 +94,35 @@ const Flow = (props) => {
       setFullScreen(window.innerHeight === window.screen.height);
     });
   };
+
+  const tableMode = () => toggleShowColumns();
+
+  useEffect(() => {
+    if (nodesCollapsed) setEdges([]);
+    // Make sure the nodes are updated before the edges
+    // const updateNodesAndEdges = () => {
+    //   setNodes((nds) => {
+    //     const updatedNodes = nds.map((node) => ({
+    //       ...node,
+    //       type: nodesCollapsed ? "tableCollapsed" : "table",
+    //     }));
+
+    //     console.log("nodesCollapsed", nodesCollapsed);
+
+    //     // Set edges based on the updated nodes - uses call back to ensure the setNodes has finished
+    //     // setEdges(() =>
+    //     //   nodesCollapsed
+    //     //     ? calculateEdges({ nodes: updatedNodes, currentDatabase })
+    //     //     : calculateEdgesTable({ nodes: updatedNodes, currentDatabase })
+    //     // );
+
+    //     return updatedNodes;
+    //   });
+    // };
+
+    // updateNodesAndEdges();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nodesCollapsed, currentDatabase]);
 
   // https://github.com/wbkd/react-flow/issues/2580
   const onNodeMouseEnter = useCallback(
@@ -337,7 +366,14 @@ const Flow = (props) => {
             >
               <PanelRightIcon />
             </ControlButton>
+            <ControlButton
+              onClick={() => tableMode()}
+              className={mergeClasses(rightPanelOpen && styles.buttonToggled)}
+            >
+              <PanelRightIcon />
+            </ControlButton>
           </Controls>
+
           <Background color={theme.colorNeutralBackgroundInverted} gap={16} />
         </ReactFlow>
       </div>

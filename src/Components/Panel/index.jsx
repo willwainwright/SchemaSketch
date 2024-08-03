@@ -1,12 +1,12 @@
+import { makeStyles, mergeClasses, tokens } from "@fluentui/react-components";
 import React from "react";
-import { makeStyles, tokens, mergeClasses } from "@fluentui/react-components";
 
 const useStyles = makeStyles({
   panelContainer: {
     position: "absolute",
     paddingBottom: tokens.spacingVerticalSNudge,
     width: "0px",
-    height: "100%",
+    height: "calc(100% - 88px)",
     zIndex: 10,
     backgroundColor: tokens.colorNeutralBackground1,
     boxShadow: tokens.shadow4,

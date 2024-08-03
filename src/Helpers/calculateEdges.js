@@ -83,12 +83,10 @@ export const calculateEdgesTable = ({ nodes, currentDatabase }) => {
       const sourceHandle = `source-header-${sourcePosition}`;
       const targetHandle = `target-header-${targetPosition}`;
 
-      console.log(
-        `${edgeConfig.source}-${edgeConfig.target} | source:"${sourceHandle}" target:"${targetHandle}"`
-      );
+      console.log(id);
 
       initialEdges.push({
-        id: `${edgeConfig.source}-${edgeConfig.target}`,
+        id: id,
         source: edgeConfig.source,
         target: edgeConfig.target,
         sourceHandle,

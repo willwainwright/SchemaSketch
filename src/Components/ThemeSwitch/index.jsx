@@ -1,6 +1,6 @@
-import React, { useState } from "react";
 import { Switch, makeStyles, tokens } from "@fluentui/react-components";
-import { WeatherMoonRegular, WeatherMoonFilled } from "@fluentui/react-icons";
+import { WeatherMoonFilled, WeatherSunnyFilled } from "@fluentui/react-icons";
+import React, { useState } from "react";
 import { useCanvasSettings } from "../../context/CanvasSettingsContext";
 
 const useStyles = makeStyles({
@@ -27,7 +27,7 @@ const ThemeSwitch = () => {
           isChecked ? (
             <WeatherMoonFilled className={styles.icon} />
           ) : (
-            <WeatherMoonRegular className={styles.icon} />
+            <WeatherSunnyFilled className={styles.icon} />
           )
         }
         inlineLabel

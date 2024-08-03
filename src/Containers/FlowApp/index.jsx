@@ -1,10 +1,10 @@
+import { makeStyles } from "@fluentui/react-components";
 import React from "react";
 import { Outlet } from "react-router-dom";
-import { makeStyles } from "@fluentui/react-components";
 
-import TopBar from "../../components/TopBar";
-import BottomBar from "../../components/BottomBar";
 import { ReactFlowProvider } from "reactflow";
+import BottomBar from "../../components/BottomBar";
+import TopBar from "../../components/TopBar";
 
 const useStyles = makeStyles({
   container: {

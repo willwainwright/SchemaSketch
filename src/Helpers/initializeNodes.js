@@ -17,7 +17,7 @@ const setHandleType = (tableConfigs, tableName, columnName, handleType) => {
   });
 };
 
-export const initializeNodes = (databaseConfig) => {
+export const initializeNodes = (databaseConfig, nodesCollapsed) => {
   const tables = [];
   const tablePositionsWithSchema = {};
 
@@ -54,11 +54,13 @@ export const initializeNodes = (databaseConfig) => {
     const schemaName = tableConfig.schema || "public";
     const tableID = fullTableName(tableConfig.name, schemaName);
 
+    const nodeType = nodesCollapsed ? "tableCollapsed" : "table";
+
     const tableDefinition = {
       id: tableID,
       data: tableConfig,
       position: tablePositionsWithSchema[tableID] || { x: 0, y: 0 },
-      type: "table",
+      type: nodeType,
     };
 
     tables.push(tableDefinition);
