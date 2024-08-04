@@ -11,7 +11,7 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "column",
     height: "100vh",
-    overflowX: "hidden",
+    overflow: "hidden",
     justifyContent: "space-between",
   },
   content: {

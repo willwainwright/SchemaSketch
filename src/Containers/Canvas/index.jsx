@@ -1,7 +1,5 @@
 import { makeStyles, mergeClasses, tokens } from "@fluentui/react-components";
 import {
-  PanelLeftExpandFilled,
-  PanelLeftExpandRegular,
   PanelRightExpandFilled,
   PanelRightExpandRegular,
   bundleIcon,
@@ -16,6 +14,7 @@ import ReactFlow, {
   getOutgoers,
   useEdgesState,
   useNodesState,
+  useStoreApi,
 } from "reactflow";
 
 import { Markers } from "../../components/Markers/Markers";
@@ -31,19 +30,17 @@ import {
   edgeMarkerName,
   initializeNodes,
   loadConfig,
-  moveSVGInFront,
   setEdgeClassName,
   setHighlightEdgeClassName,
 } from "../../helpers";
 import PanelLeft from "../PanelLeft";
-import PanelRight from "../PanelRight";
 
 // this is important! You need to import the styles from the lib to make it work
 import "reactflow/dist/style.css";
-import { FLOW_VIEWS } from "../../components/constants/flow";
+import { FLOW_VIEWS } from "../../constants/flow";
+import { SELECTED_TYPE } from "../../constants/panel";
 import "./Style";
 
-const PanelLeftIcon = bundleIcon(PanelLeftExpandFilled, PanelLeftExpandRegular);
 const PanelRightIcon = bundleIcon(
   PanelRightExpandFilled,
   PanelRightExpandRegular
@@ -75,7 +72,8 @@ const Flow = (props) => {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [fullscreenOn, setFullScreen] = useState(false);
   const [leftPanelOpen, setLeftPanelOpen] = useState(false);
-  const [rightPanelOpen, setRightPanelOpen] = useState(false);
+  const [selectedNode, setSelectedNode] = useState({});
+  const store = useStoreApi();
 
   const { theme, flowView, toggleShowColumns } = useCanvasSettings();
 
@@ -109,6 +107,16 @@ const Flow = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flowView, currentDatabase]);
 
+  useEffect(() => {
+    const selectedNode = nodes && nodes.find((node) => node.selected === true);
+    console.log("selectedNode", selectedNode);
+    if (selectedNode?.id) {
+      setSelectedNode(selectedNode);
+      setLeftPanelOpen(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nodes]);
+
   const tableMode = () => {
     toggleShowColumns();
   };
@@ -128,38 +136,17 @@ const Flow = (props) => {
     });
   };
 
-  const onNodeMouseLeave = (_, node) => {
-    if (!node) return;
+  const onNodeMouseLeave = useCallback(
+    (_, node) => {
+      if (!node) return;
 
-    setEdges((eds) => eds.map((ed) => setEdgeClassName(ed)));
+      setEdges((eds) => eds.map((ed) => setEdgeClassName(ed)));
 
-    // https://stackoverflow.com/questions/2520650/how-do-you-clear-the-focus-in-javascript
-    // document.activeElement.blur();
-  };
-
-  // const onNodeMouseLeave = useCallback(
-  //   (_, node) => {
-  //     if (!node) return;
-  //     const state = store.getState();
-  //     state.resetSelectedElements();
-
-  //     setEdges((eds) => eds.map((ed) => setEdgeClassName(ed)));
-
-  //     // https://stackoverflow.com/questions/2520650/how-do-you-clear-the-focus-in-javascript
-  //     document.activeElement.blur();
-  //   },
-  //   [setEdges, store]
-  // );
-
-  const onSelectionChange = useCallback((params) => {
-    const edges = params.edges;
-    edges.forEach((ed) => {
-      const svg = document
-        .querySelector(".react-flow__edges")
-        ?.querySelector(`[data-testid="rf__edge-${ed.id}"]`);
-      moveSVGInFront(svg);
-    });
-  }, []);
+      // https://stackoverflow.com/questions/2520650/how-do-you-clear-the-focus-in-javascript
+      document.activeElement.blur();
+    },
+    [setEdges]
+  );
 
   const handleNodesChange = (nodes) => {
     if (flowView === FLOW_VIEWS.COLUMN) {
@@ -290,14 +277,6 @@ const Flow = (props) => {
     [onNodesChange, setEdges, nodes, edges, currentDatabase]
   );
 
-  const togglePanel = (side) => {
-    if (side === "left") {
-      setLeftPanelOpen(!leftPanelOpen);
-    } else {
-      setRightPanelOpen(!rightPanelOpen);
-    }
-  };
-
   const toggleFullScreen = () => {
     if (fullscreenOn) {
       document
@@ -326,10 +305,28 @@ const Flow = (props) => {
     }
   };
 
+  // TODO make this work with rtight
+  const togglePanel = (side) => {
+    if (leftPanelOpen) {
+      const state = store.getState();
+      state.resetSelectedElements();
+      setSelectedNode({});
+      setLeftPanelOpen(false);
+    } else {
+      setLeftPanelOpen(true);
+    }
+  };
+
   // https://stackoverflow.com/questions/16664584/changing-an-svg-markers-color-css
   return (
     <>
-      <PanelLeft open={leftPanelOpen} />
+      <PanelLeft
+        open={leftPanelOpen}
+        togglePanel={() => togglePanel("left")}
+        selectedItem={selectedNode}
+        selectedItemType={SELECTED_TYPE.NODE}
+      />
+
       <div className={styles.flow}>
         <Markers />
         <ReactFlow
@@ -344,7 +341,6 @@ const Flow = (props) => {
           nodeTypes={nodeTypes}
           onNodeMouseEnter={onNodeMouseEnter}
           onNodeMouseLeave={onNodeMouseLeave}
-          onSelectionChange={onSelectionChange}
           proOptions={{ hideAttribution: true }}
         >
           <Controls
@@ -355,21 +351,10 @@ const Flow = (props) => {
               {!fullscreenOn && <MaximizeIcon />}
               {fullscreenOn && <MinimizeIcon />}
             </ControlButton>
-            <ControlButton
-              onClick={() => togglePanel("left")}
-              className={mergeClasses(leftPanelOpen && styles.buttonToggled)}
-            >
-              <PanelLeftIcon />
-            </ControlButton>
-            <ControlButton
-              onClick={() => togglePanel("right")}
-              className={mergeClasses(rightPanelOpen && styles.buttonToggled)}
-            >
-              <PanelRightIcon />
-            </ControlButton>
+
             <ControlButton
               onClick={() => tableMode()}
-              className={mergeClasses(rightPanelOpen && styles.buttonToggled)}
+              className={mergeClasses(styles.buttonToggled)}
             >
               <PanelRightIcon />
             </ControlButton>
@@ -378,7 +363,6 @@ const Flow = (props) => {
           <Background color={theme.colorNeutralBackgroundInverted} gap={16} />
         </ReactFlow>
       </div>
-      <PanelRight open={rightPanelOpen} />
     </>
   );
 };

@@ -11,7 +11,6 @@ const useStyles = makeStyles({
     borderBottom: 0,
     fontSize: "12px",
     lineHeight: 1,
-    cursor: "pointer",
 
     "&:last-child": {
       borderBottom: "0 !important",

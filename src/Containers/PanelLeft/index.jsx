@@ -1,22 +1,28 @@
 import React from "react";
-import { useNodes } from "reactflow";
 
 import Panel from "../../components/Panel";
+import { PANEL_SIDES } from "../../constants/panel";
 
 // const useStyles = makeStyles({});
 
 const PanelLeft = (props) => {
-  const { open } = props;
+  const { open, togglePanel, selectedItem, selectedItemType } = props;
 
   // Hooks
   // const styles = useStyles();
 
-  const nodes = useNodes();
+  console.log("selectedItem", selectedItem);
 
+  // if (!selectedItem?.id) return;
   return (
-    <Panel open={open} side="left">
-      Left Panel
-      <div>There are currently {nodes.length} nodes!</div>
+    <Panel
+      open={open}
+      side={PANEL_SIDES.LEFT}
+      togglePanel={togglePanel}
+      title={selectedItem?.data?.name}
+      showToggle={true}
+    >
+      {JSON.stringify(selectedItem)}
     </Panel>
   );
 };

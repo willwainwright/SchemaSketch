@@ -11,6 +11,7 @@ const useStyles = makeStyles({
     height: "30px",
     boxShadow: tokens.shadow4,
     backgroundColor: "green",
+    zIndex: "10",
   },
 });
 

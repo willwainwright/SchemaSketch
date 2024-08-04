@@ -50,7 +50,7 @@ export const TableNode = (props) => {
   };
 
   return (
-    <div className={styles.tableRoot}>
+    <div className={styles.tableRoot} onClick={() => alert("click")}>
       <div
         style={{ backgroundColor: getColor(data.schemaColor) }}
         className={styles.tableHeader}

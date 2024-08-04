@@ -1,5 +1,5 @@
-import React from "react";
 import { makeStyles, tokens } from "@fluentui/react-components";
+import React from "react";
 import Panel from "../../components/Panel";
 
 const useStyles = makeStyles({
@@ -20,7 +20,7 @@ const PanelRight = (props) => {
   const styles = useStyles();
 
   return (
-    <Panel open={open} side="right">
+    <Panel open={open} side="right" showToggle={false}>
       <div className={styles.titleBar}>Properties</div>
     </Panel>
   );

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import { FLOW_VIEWS } from "../components/constants/flow";
+import { FLOW_VIEWS } from "../constants/flow";
 import { customDarkTheme, customLightTheme } from "../theme";
 
 const CanvasSettingsContext = createContext();

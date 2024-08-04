@@ -1,4 +1,4 @@
-import { FLOW_VIEWS } from "../components/constants/flow";
+import { FLOW_VIEWS } from "../constants/flow";
 import { fullTableName } from "./fullTableName";
 
 const setHandleType = (tableConfigs, tableName, columnName, handleType) => {

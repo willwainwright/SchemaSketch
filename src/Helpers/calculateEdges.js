@@ -1,4 +1,4 @@
-import { FLOW_VIEWS } from "../components/constants/flow";
+import { FLOW_VIEWS } from "../constants/flow";
 import { calculateSourcePosition } from "./calculateSourcePosition";
 import { calculateTargetPosition } from "./calculateTargetPosition";
 import { edgeClassName } from "./edgeClassName";

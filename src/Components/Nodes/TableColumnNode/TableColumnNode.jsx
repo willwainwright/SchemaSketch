@@ -20,6 +20,7 @@ const useStyles = makeStyles({
     fontWeight: "bold",
     textAlign: "center",
     height: "20px",
+    cursor: "pointer",
   },
 });
 
