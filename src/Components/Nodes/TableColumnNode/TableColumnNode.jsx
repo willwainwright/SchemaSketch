@@ -1,45 +1,29 @@
-import React, { useState } from "react";
 import { makeStyles, tokens } from "@fluentui/react-components";
-
-import { invertColor } from "../../helpers";
-
 import "@reactflow/node-resizer/dist/style.css";
+import React, { useState } from "react";
+
+import { useCanvasSettings } from "../../../context/CanvasSettingsContext";
+import { invertColor } from "../../../helpers";
 import { TableColumn } from "../TableColumn/TableColumn";
-import { useCanvasSettings } from "../../context/CanvasSettingsContext";
 
 const useStyles = makeStyles({
   tableRoot: {
     backgroundColor: tokens.colorNeutralBackground1,
+    boxShadow: tokens.shadow8,
+    // border: `1px solid ${tokens.colorNeutralStroke1}`,
+    borderRadius: "4px",
+    overflow: "hidden",
   },
   tableHeader: {
     padding: "8px",
     border: 0,
-    borderRadius: "4px 4px 0 0",
     fontWeight: "bold",
     textAlign: "center",
     height: "20px",
   },
-  tableColumns: {
-    border: `1px solid ${tokens.colorNeutralStroke1}`,
-    borderTop: 0,
-    borderRadius: "0 0 4px 4px",
-  },
-  handle: {
-    position: "absolute",
-    top: "18px",
-  },
-
-  leftHandle: {
-    left: 0,
-    transform: "translateX(-50%) translateY(-50%)",
-  },
-  rightHandle: {
-    right: 0,
-    transform: "translateX(50%) translateY(-50%)",
-  },
 });
 
-export const TableNode = (props) => {
+export const TableColumnNode = (props) => {
   const { data } = props;
   const [selectedColumn, setSelectedColumn] = useState("");
 

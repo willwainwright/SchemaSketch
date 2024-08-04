@@ -1,11 +1,10 @@
-import React, { useState } from "react";
 import { makeStyles, mergeClasses, tokens } from "@fluentui/react-components";
+import "@reactflow/node-resizer/dist/style.css";
+import React from "react";
 import { Handle, Position } from "reactflow";
 
-import { invertColor } from "../../helpers";
-
-import "@reactflow/node-resizer/dist/style.css";
-import { useCanvasSettings } from "../../context/CanvasSettingsContext";
+import { useCanvasSettings } from "../../../context/CanvasSettingsContext";
+import { invertColor } from "../../../helpers";
 
 const useStyles = makeStyles({
   tableRoot: {
@@ -39,7 +38,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const TableNodeCollapsed = (props) => {
+export const TableNode = (props) => {
   const { data } = props;
 
   const styles = useStyles();

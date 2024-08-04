@@ -16,7 +16,6 @@ import ReactFlow, {
   getOutgoers,
   useEdgesState,
   useNodesState,
-  useStoreApi,
 } from "reactflow";
 
 import { Markers } from "../../components/Markers/Markers";
@@ -41,6 +40,7 @@ import PanelRight from "../PanelRight";
 
 // this is important! You need to import the styles from the lib to make it work
 import "reactflow/dist/style.css";
+import { FLOW_VIEWS } from "../../components/constants/flow";
 import "./Style";
 
 const PanelLeftIcon = bundleIcon(PanelLeftExpandFilled, PanelLeftExpandRegular);
@@ -77,15 +77,12 @@ const Flow = (props) => {
   const [leftPanelOpen, setLeftPanelOpen] = useState(false);
   const [rightPanelOpen, setRightPanelOpen] = useState(false);
 
-  const styles = useStyles();
-  const { theme, nodesCollapsed, toggleShowColumns } = useCanvasSettings();
-  const store = useStoreApi();
+  const { theme, flowView, toggleShowColumns } = useCanvasSettings();
 
+  const styles = useStyles();
   const onInit = (instance) => {
     const nodes = instance.getNodes();
-    const initialEdges = calculateEdges({ nodes, currentDatabase });
-
-    // const initialEdges = calculateEdgesTable({ nodes, currentDatabase });
+    const initialEdges = calculateEdges(nodes, currentDatabase, flowView);
 
     setEdges(() => initialEdges);
 
@@ -95,68 +92,64 @@ const Flow = (props) => {
     });
   };
 
-  const tableMode = () => toggleShowColumns();
-
   useEffect(() => {
-    if (nodesCollapsed) setEdges([]);
-    // Make sure the nodes are updated before the edges
-    // const updateNodesAndEdges = () => {
-    //   setNodes((nds) => {
-    //     const updatedNodes = nds.map((node) => ({
-    //       ...node,
-    //       type: nodesCollapsed ? "tableCollapsed" : "table",
-    //     }));
+    const updatedNodes = nodes.map((node) => ({
+      ...node,
+      type: flowView === FLOW_VIEWS.TABLE ? "table" : "tableColumn",
+    }));
 
-    //     console.log("nodesCollapsed", nodesCollapsed);
+    const updatedEdges = calculateEdges(
+      updatedNodes,
+      currentDatabase,
+      flowView
+    );
 
-    //     // Set edges based on the updated nodes - uses call back to ensure the setNodes has finished
-    //     // setEdges(() =>
-    //     //   nodesCollapsed
-    //     //     ? calculateEdges({ nodes: updatedNodes, currentDatabase })
-    //     //     : calculateEdgesTable({ nodes: updatedNodes, currentDatabase })
-    //     // );
-
-    //     return updatedNodes;
-    //   });
-    // };
-
-    // updateNodesAndEdges();
+    setNodes(updatedNodes);
+    setEdges(updatedEdges);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [nodesCollapsed, currentDatabase]);
+  }, [flowView, currentDatabase]);
 
-  // https://github.com/wbkd/react-flow/issues/2580
-  const onNodeMouseEnter = useCallback(
-    (_, node) => {
-      const state = store.getState();
-      state.resetSelectedElements();
-      state.addSelectedNodes([node.id]);
+  const tableMode = () => {
+    toggleShowColumns();
+  };
 
-      const connectedEdges = getConnectedEdges([node], edges);
-      setEdges((eds) => {
-        return eds.map((ed) => {
-          if (connectedEdges.find((e) => e.id === ed.id)) {
-            setHighlightEdgeClassName(ed);
-          }
+  const onNodeMouseEnter = (_, node) => {
+    if (!node || !edges.length) return;
 
-          return ed;
-        });
+    const connectedEdges = getConnectedEdges([node], edges);
+    setEdges((eds) => {
+      return eds.map((ed) => {
+        if (connectedEdges.find((e) => e.id === ed.id)) {
+          setHighlightEdgeClassName(ed);
+        }
+
+        return ed;
       });
-    },
-    [edges, setEdges, store]
-  );
+    });
+  };
 
-  const onNodeMouseLeave = useCallback(
-    (_, node) => {
-      const state = store.getState();
-      state.resetSelectedElements();
+  const onNodeMouseLeave = (_, node) => {
+    if (!node) return;
 
-      setEdges((eds) => eds.map((ed) => setEdgeClassName(ed)));
+    setEdges((eds) => eds.map((ed) => setEdgeClassName(ed)));
 
-      // https://stackoverflow.com/questions/2520650/how-do-you-clear-the-focus-in-javascript
-      document.activeElement.blur();
-    },
-    [setEdges, store]
-  );
+    // https://stackoverflow.com/questions/2520650/how-do-you-clear-the-focus-in-javascript
+    // document.activeElement.blur();
+  };
+
+  // const onNodeMouseLeave = useCallback(
+  //   (_, node) => {
+  //     if (!node) return;
+  //     const state = store.getState();
+  //     state.resetSelectedElements();
+
+  //     setEdges((eds) => eds.map((ed) => setEdgeClassName(ed)));
+
+  //     // https://stackoverflow.com/questions/2520650/how-do-you-clear-the-focus-in-javascript
+  //     document.activeElement.blur();
+  //   },
+  //   [setEdges, store]
+  // );
 
   const onSelectionChange = useCallback((params) => {
     const edges = params.edges;
@@ -168,8 +161,16 @@ const Flow = (props) => {
     });
   }, []);
 
+  const handleNodesChange = (nodes) => {
+    if (flowView === FLOW_VIEWS.COLUMN) {
+      recalculateEdgePositions(nodes);
+    } else {
+      return onNodesChange(nodes);
+    }
+  };
+
   // This moves the edge to use the other side node on rearrange
-  const handleNodesChange = useCallback(
+  const recalculateEdgePositions = useCallback(
     (nodeChanges) => {
       nodeChanges.forEach((nodeChange) => {
         if (nodeChange.type === "position" && nodeChange.positionAbsolute) {

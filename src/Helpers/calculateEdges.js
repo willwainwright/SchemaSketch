@@ -1,13 +1,20 @@
-import { edgeMarkerName } from "./edgeMarkerName";
-import { edgeClassName } from "./edgeClassName";
+import { FLOW_VIEWS } from "../components/constants/flow";
 import { calculateSourcePosition } from "./calculateSourcePosition";
 import { calculateTargetPosition } from "./calculateTargetPosition";
+import { edgeClassName } from "./edgeClassName";
+import { edgeMarkerName } from "./edgeMarkerName";
 
-export const calculateEdges = ({ nodes, currentDatabase }) => {
+export const calculateEdges = (nodes, currentDatabase, flowView) => {
+  // this will be replaced with multiple views
+  if (flowView === FLOW_VIEWS.COLUMN) {
+    return calculateEdgesTableColumn(nodes, currentDatabase);
+  } else {
+    return calculateEdgesTable(nodes, currentDatabase);
+  }
+};
+
+const calculateEdgesTableColumn = (nodes, currentDatabase) => {
   const initialEdges = [];
-
-  console.log("calculateEdges-nodes", nodes);
-  console.log("calculateEdges-currentDatabase", currentDatabase);
 
   if (!currentDatabase?.edgeConfigs) return;
   if (!nodes || nodes?.length === 0) return;
@@ -53,7 +60,7 @@ export const calculateEdges = ({ nodes, currentDatabase }) => {
   return initialEdges;
 };
 
-export const calculateEdgesTable = ({ nodes, currentDatabase }) => {
+const calculateEdgesTable = (nodes, currentDatabase) => {
   const initialEdges = [];
 
   currentDatabase.edgeConfigs.forEach((edgeConfig) => {
@@ -82,8 +89,6 @@ export const calculateEdgesTable = ({ nodes, currentDatabase }) => {
 
       const sourceHandle = `source-header-${sourcePosition}`;
       const targetHandle = `target-header-${targetPosition}`;
-
-      console.log(id);
 
       initialEdges.push({
         id: id,

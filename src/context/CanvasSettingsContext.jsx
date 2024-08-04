@@ -1,12 +1,13 @@
 import React, { createContext, useContext, useState } from "react";
-import { customLightTheme, customDarkTheme } from "../theme";
+import { FLOW_VIEWS } from "../components/constants/flow";
+import { customDarkTheme, customLightTheme } from "../theme";
 
 const CanvasSettingsContext = createContext();
 
 export const CanvasSettingsProvider = ({ children }) => {
   const [theme, setTheme] = useState(customLightTheme);
   const [isLightTheme, setIsLightTheme] = useState(true);
-  const [nodesCollapsed, setShowColumns] = useState(false);
+  const [flowView, setFlowView] = useState(FLOW_VIEWS.COLUMN);
 
   const toggleTheme = () => {
     const newTheme = isLightTheme ? customDarkTheme : customLightTheme;
@@ -15,7 +16,12 @@ export const CanvasSettingsProvider = ({ children }) => {
   };
 
   const toggleShowColumns = () => {
-    setShowColumns(!nodesCollapsed);
+    // this will be replaced with multiple views
+    if (flowView === FLOW_VIEWS.COLUMN) {
+      setFlowView(FLOW_VIEWS.TABLE);
+    } else {
+      setFlowView(FLOW_VIEWS.COLUMN);
+    }
   };
 
   return (
@@ -24,7 +30,7 @@ export const CanvasSettingsProvider = ({ children }) => {
         theme,
         toggleTheme,
         isLightTheme,
-        nodesCollapsed,
+        flowView,
         toggleShowColumns,
       }}
     >

@@ -1,12 +1,8 @@
+import { makeStyles, mergeClasses, tokens } from "@fluentui/react-components";
 import React from "react";
-import {
-  makeStyles,
-  mergeClasses,
-  shorthands,
-  tokens,
-} from "@fluentui/react-components";
 import { Handle, Position } from "reactflow";
-import { KeyIcon } from "../KeyIcon/KeyIcon";
+
+import { KeyIcon } from "../../KeyIcon/KeyIcon";
 
 const useStyles = makeStyles({
   column: {
@@ -41,24 +37,6 @@ const useStyles = makeStyles({
 
   selected: {
     display: "block",
-  },
-
-  handle: {
-    width: "2px",
-    height: "2px",
-    minWidth: "2px",
-    position: "absolute",
-    top: "50%",
-    transform: "translateY(-50%)",
-  },
-
-  leftHandle: {
-    left: 0,
-    transform: "translateX(-50%) translateY(-50%)",
-  },
-  rightHandle: {
-    right: 0,
-    transform: "translateX(50%) translateY(-50%)",
   },
 });
 

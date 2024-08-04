@@ -1,7 +1,7 @@
-import { TableNode } from "../components/TableNode/TableNode";
-import { TableNodeCollapsed } from "../components/TableNodeCollapsed/TableNodeCollapsed";
+import { TableColumnNode } from "../components/Nodes/TableColumnNode/TableColumnNode";
+import { TableNode } from "../components/Nodes/TableNode/TableNode";
 
 export const nodeTypes = {
+  tableColumn: TableColumnNode,
   table: TableNode,
-  tableCollapsed: TableNodeCollapsed,
 };

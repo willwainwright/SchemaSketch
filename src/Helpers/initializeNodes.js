@@ -1,3 +1,4 @@
+import { FLOW_VIEWS } from "../components/constants/flow";
 import { fullTableName } from "./fullTableName";
 
 const setHandleType = (tableConfigs, tableName, columnName, handleType) => {
@@ -17,7 +18,7 @@ const setHandleType = (tableConfigs, tableName, columnName, handleType) => {
   });
 };
 
-export const initializeNodes = (databaseConfig, nodesCollapsed) => {
+export const initializeNodes = (databaseConfig, flowView) => {
   const tables = [];
   const tablePositionsWithSchema = {};
 
@@ -54,7 +55,7 @@ export const initializeNodes = (databaseConfig, nodesCollapsed) => {
     const schemaName = tableConfig.schema || "public";
     const tableID = fullTableName(tableConfig.name, schemaName);
 
-    const nodeType = nodesCollapsed ? "tableCollapsed" : "table";
+    const nodeType = flowView === FLOW_VIEWS.TABLE ? "table" : "tableColumn";
 
     const tableDefinition = {
       id: tableID,

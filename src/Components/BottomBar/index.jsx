@@ -31,9 +31,12 @@ const BottomBar = () => {
     <div className={styles.BottomBar}>
       <Button onClick={zoomIn}>Zoom</Button>
       {showPositions && (
-        <p>
-          ({x.toFixed(2)}, {y.toFixed(2)})
-        </p>
+        <>
+          <p>
+            ({x.toFixed(2)}, {y.toFixed(2)})
+          </p>
+          <p>{zoom}</p>
+        </>
       )}
     </div>
   );
