@@ -107,15 +107,17 @@ const Flow = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flowView, currentDatabase]);
 
-  useEffect(() => {
-    const selectedNode = nodes && nodes.find((node) => node.selected === true);
-    console.log("selectedNode", selectedNode);
-    if (selectedNode?.id) {
-      setSelectedNode(selectedNode);
-      setLeftPanelOpen(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [nodes]);
+  // useEffect(() => {
+  //   const selectedNode =
+  //     nodes &&
+  //     nodes.find((node) => node.selected === true && node.dragging === false);
+  //   console.log("selectedNode", selectedNode);
+  //   if (selectedNode?.id) {
+  //     setSelectedNode(selectedNode);
+  //     setLeftPanelOpen(true);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [nodes]);
 
   const tableMode = () => {
     toggleShowColumns();
@@ -317,6 +319,14 @@ const Flow = (props) => {
     }
   };
 
+  const onNodeClick = (_, node) => {
+    if (node?.id) {
+      setSelectedNode(node);
+
+      if (!leftPanelOpen) setLeftPanelOpen(true);
+    }
+  };
+
   // https://stackoverflow.com/questions/16664584/changing-an-svg-markers-color-css
   return (
     <>
@@ -342,6 +352,7 @@ const Flow = (props) => {
           onNodeMouseEnter={onNodeMouseEnter}
           onNodeMouseLeave={onNodeMouseLeave}
           proOptions={{ hideAttribution: true }}
+          onNodeClick={onNodeClick}
         >
           <Controls
             position={"bottom-center"}
