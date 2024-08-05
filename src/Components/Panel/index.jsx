@@ -18,14 +18,15 @@ const useStyles = makeStyles({
     zIndex: 5,
     backgroundColor: tokens.colorNeutralBackground1,
     boxShadow: tokens.shadow4,
-    transition: "width 0.2s ease",
-    visibility: "hidden",
+    transition: "width 0.4s ease",
+    // visibility: "hidden",
     overflow: "hidden",
   },
   panelOpen: {
     width: "300px",
     display: "block",
     visibility: "visible",
+    transition: "width 0.3s ease",
   },
 
   left: {
@@ -61,10 +62,10 @@ const useStyles = makeStyles({
     position: "absolute",
     top: "100px",
     left: "0px",
+    transition: "left 0.3s ease",
   },
   toggleButtonOpen: {
     left: "285px",
-    transition: "left 0.2s ease",
   },
 });
 
