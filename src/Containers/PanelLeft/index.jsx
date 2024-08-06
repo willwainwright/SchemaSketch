@@ -85,33 +85,6 @@ const PanelLeft = (props) => {
             <div>Accordion Panel 1</div>
           </ExpandableTable>
         ))}
-      {/* <Accordion openItems={openItems} onToggle={handleToggle} collapsible>
-        {nodes &&
-          nodes.map((node) => (
-            // <AccordionItem value={node.id} key={node.id}>
-            //   <AccordionHeader>
-            //       <div className={styles.header}>
-            //         {node.data.name}
-            //         <div className={styles.headerMenuItems}>
-            //           <Button
-            //             icon={<Edit16Regular />}
-            //             appearance="transparent"
-            //             onClick={handleEdit}
-            //           />
-            //           <Button
-            //             icon={<MoreHorizontal16Regular />}
-            //             appearance="transparent"
-            //             onClick={handleEdit}
-            //           />
-            //         </div>
-            //       </div>
-            //     </AccordionHeader>
-            //     <AccordionPanel>
-            //       <div>Accordion Panel 1</div>
-            //     </AccordionPanel>
-            //   </AccordionItem>
-          ))}
-      </Accordion> */}
     </Panel>
   );
 };

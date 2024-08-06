@@ -5,9 +5,9 @@ import {
   Subtitle1,
   tokens,
 } from "@fluentui/react-components";
-import { ChevronLeftFilled, ChevronRightFilled } from "@fluentui/react-icons";
 import React from "react";
 import { PANEL_SIDES } from "../../constants/panel";
+import { CollapseIcon, ExpandIcon } from "../Icons";
 
 const useStyles = makeStyles({
   panelContainer: {
@@ -36,7 +36,6 @@ const useStyles = makeStyles({
     right: "0",
   },
   header: {
-    padding: `${tokens.spacingVerticalXXL} ${tokens.spacingHorizontalXXL}  ${tokens.spacingVerticalS}`,
     width: "100%",
     maxWidth: "100%",
     gap: tokens.spacingHorizontalS,
@@ -45,12 +44,15 @@ const useStyles = makeStyles({
     flexDirection: "row",
     position: "relative",
     justifyContent: "space-between",
+    alignItems: "center",
+    height: "50px",
+    borderBottom: `1px solid ${tokens.colorBrandStroke1}`,
+    paddingLeft: "32px",
   },
   headerCloseButton: {
     marginRight: tokens.spacingVerticalXXL,
   },
   content: {
-    padding: `0 ${tokens.spacingHorizontalXXL}`,
     flex: `1 1 0%`,
     alignSelf: "stretch",
     position: "relative",
@@ -60,12 +62,15 @@ const useStyles = makeStyles({
   toggleButton: {
     zIndex: 99,
     position: "absolute",
-    top: "100px",
+    top: "60px",
     left: "0px",
     transition: "left 0.3s ease",
+    borderLeft: "0",
+    borderTopLeftRadius: "0",
+    borderBottomLeftRadius: "0",
   },
   toggleButtonOpen: {
-    left: "285px",
+    left: "300px",
   },
 });
 
@@ -84,7 +89,7 @@ const Panel = (props) => {
             open && styles.toggleButtonOpen
           )}
           onClick={togglePanel}
-          icon={open ? <ChevronLeftFilled /> : <ChevronRightFilled />}
+          icon={open ? <CollapseIcon /> : <ExpandIcon />}
         />
       )}
       <div
