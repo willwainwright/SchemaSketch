@@ -5,9 +5,12 @@ import {
   Subtitle1,
   tokens,
 } from "@fluentui/react-components";
-import React from "react";
+import { TableAddRegular } from "@fluentui/react-icons";
+import React, { useEffect, useRef, useState } from "react";
+
 import { PANEL_SIDES } from "../../constants/panel";
-import { CollapseIcon, ExpandIcon } from "../Icons";
+import { CollapseIcon, ExpandIcon, SearchIcon } from "../Icons";
+import SearchBox from "../SearchBox";
 
 const useStyles = makeStyles({
   panelContainer: {
@@ -18,8 +21,7 @@ const useStyles = makeStyles({
     zIndex: 5,
     backgroundColor: tokens.colorNeutralBackground1,
     boxShadow: tokens.shadow4,
-    transition: "width 0.4s ease",
-    // visibility: "hidden",
+    transition: "width 0.3s ease",
     overflow: "hidden",
   },
   panelOpen: {
@@ -36,7 +38,6 @@ const useStyles = makeStyles({
     right: "0",
   },
   header: {
-    width: "100%",
     maxWidth: "100%",
     gap: tokens.spacingHorizontalS,
     alignSelf: "stretch",
@@ -46,8 +47,8 @@ const useStyles = makeStyles({
     justifyContent: "space-between",
     alignItems: "center",
     height: "50px",
-    borderBottom: `1px solid ${tokens.colorBrandStroke1}`,
-    paddingLeft: "32px",
+    borderBottom: `1px solid ${tokens.colorNeutralStroke1}`,
+    padding: "0 5px",
   },
   headerCloseButton: {
     marginRight: tokens.spacingVerticalXXL,
@@ -62,7 +63,7 @@ const useStyles = makeStyles({
   toggleButton: {
     zIndex: 99,
     position: "absolute",
-    top: "60px",
+    top: "62px",
     left: "0px",
     transition: "left 0.3s ease",
     borderLeft: "0",
@@ -72,13 +73,41 @@ const useStyles = makeStyles({
   toggleButtonOpen: {
     left: "300px",
   },
+  searchBox: {
+    flexGrow: 1,
+  },
 });
 
 const Panel = (props) => {
   const { open, children, side, togglePanel, title, showToggle } = props;
+  const [istransitioning, setIstransitioning] = useState(false);
+  const [isSearchActive, setIsSearchActive] = useState(false);
 
   // Hooks
   const styles = useStyles();
+  const searchBoxRef = useRef();
+
+  useEffect(() => {
+    console.log("se", isSearchActive);
+    console.log("searchBoxRef", searchBoxRef);
+    console.log("searchBoxRef.current", searchBoxRef.current);
+    if (isSearchActive && searchBoxRef.current) {
+      searchBoxRef.current.focus();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSearchActive, searchBoxRef]);
+
+  const handleTogglePanel = () => {
+    setIstransitioning(true);
+    togglePanel();
+    setTimeout(() => {
+      setIstransitioning(false);
+    }, 300);
+  };
+
+  const handleSearchButton = () => {
+    setIsSearchActive(true);
+  };
 
   return (
     <>
@@ -88,7 +117,7 @@ const Panel = (props) => {
             styles.toggleButton,
             open && styles.toggleButtonOpen
           )}
-          onClick={togglePanel}
+          onClick={handleTogglePanel}
           icon={open ? <CollapseIcon /> : <ExpandIcon />}
         />
       )}
@@ -100,7 +129,38 @@ const Panel = (props) => {
         )}
       >
         <div className={styles.header}>
-          <Subtitle1>{title}</Subtitle1>
+          {isSearchActive && (
+            <SearchBox
+              handleSearchChange={() => console.log("search for")}
+              placeholder="Search"
+              ariaLabel="global-search-box"
+              debounceMilliseconds={150}
+              className={styles.searchBox}
+              toggleFocus={(focus) => setIsSearchActive(focus)}
+              searchBoxRef={searchBoxRef}
+            />
+          )}
+          {!istransitioning && !isSearchActive && (
+            <>
+              <Subtitle1>{title}</Subtitle1>
+              <div>
+                <Button
+                  icon={<SearchIcon />}
+                  appearance="subtle"
+                  size={"small"}
+                  style={{ marginRight: "2px" }}
+                  onClick={handleSearchButton}
+                />
+                <Button
+                  icon={<TableAddRegular />}
+                  appearance="primary"
+                  size={"small"}
+                >
+                  New Table
+                </Button>
+              </div>
+            </>
+          )}
         </div>
 
         <div className={styles.content}>{children}</div>

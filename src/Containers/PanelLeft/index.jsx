@@ -53,6 +53,10 @@ const PanelLeft = (props) => {
     e.preventDefault();
   };
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+  };
+
   const handleOnTableOpen = (key) => {
     console.log("handleOnTableOpen", key);
     setOpenItem(key);
