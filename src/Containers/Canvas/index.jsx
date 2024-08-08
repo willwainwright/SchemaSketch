@@ -319,12 +319,53 @@ const Flow = (props) => {
     }
   };
 
-  const onNodeClick = (_, node) => {
-    if (node?.id) {
-      setSelectedNode(node);
+  const handleNodeClick = (e, selectedNode) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (selectedNode?.id) {
+      setSelectedNode(selectedNode);
+
+      setNodes((nds) =>
+        nds.map((node) => {
+          if (node.id === selectedNode?.id) {
+            // it's important that you create a new node object
+            // in order to notify react flow about the change
+            return {
+              ...node,
+              data: {
+                ...node.data,
+                isSelected: true,
+              },
+            };
+          } else {
+            return {
+              ...node,
+              data: {
+                ...node.data,
+                isSelected: false,
+              },
+            };
+          }
+        })
+      );
 
       if (!leftPanelOpen) setLeftPanelOpen(true);
     }
+  };
+
+  const handleCanvasClick = (e) => {
+    // deselect all nodes
+    setNodes((nds) =>
+      nds.map((node) => {
+        return {
+          ...node,
+          data: {
+            ...node.data,
+            isSelected: false,
+          },
+        };
+      })
+    );
   };
 
   // https://stackoverflow.com/questions/16664584/changing-an-svg-markers-color-css
@@ -352,7 +393,8 @@ const Flow = (props) => {
           onNodeMouseEnter={onNodeMouseEnter}
           onNodeMouseLeave={onNodeMouseLeave}
           proOptions={{ hideAttribution: true }}
-          onNodeClick={onNodeClick}
+          onNodeClick={handleNodeClick}
+          onClick={handleCanvasClick}
         >
           <Controls
             position={"bottom-center"}

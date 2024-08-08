@@ -1,4 +1,4 @@
-import { makeStyles, tokens } from "@fluentui/react-components";
+import { makeStyles, mergeClasses, tokens } from "@fluentui/react-components";
 import "@reactflow/node-resizer/dist/style.css";
 import React, { useState } from "react";
 
@@ -10,7 +10,6 @@ const useStyles = makeStyles({
   tableRoot: {
     backgroundColor: tokens.colorNeutralBackground1,
     boxShadow: tokens.shadow8,
-    // border: `1px solid ${tokens.colorNeutralStroke1}`,
     borderRadius: "4px",
     overflow: "hidden",
   },
@@ -22,14 +21,23 @@ const useStyles = makeStyles({
     height: "20px",
     cursor: "pointer",
   },
+
+  isSelected: {
+    border: `2px solid ${tokens.colorBrandStroke1}`,
+  },
+  isDragging: {
+    // cursor: "grabbing",
+  },
 });
 
 export const TableColumnNode = (props) => {
-  const { data } = props;
+  const { data, dragging } = props;
   const [selectedColumn, setSelectedColumn] = useState("");
 
   const styles = useStyles();
   const { isLightTheme } = useCanvasSettings();
+
+  const selected = data?.isSelected;
 
   const getColor = (color) => {
     if (isLightTheme) return color;
@@ -37,7 +45,13 @@ export const TableColumnNode = (props) => {
   };
 
   return (
-    <div className={styles.tableRoot}>
+    <div
+      className={mergeClasses(
+        styles.tableRoot,
+        selected && !dragging && styles.isSelected,
+        dragging && styles.isDragging
+      )}
+    >
       <div
         style={{ backgroundColor: getColor(data.schemaColor) }}
         className={styles.tableHeader}
